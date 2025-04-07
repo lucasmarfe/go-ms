@@ -1,24 +1,40 @@
 package user
 
-import "errors"
+import (
+	"context"
+	"database/sql"
+	"errors"
+)
 
-type InMemoryRepo struct {
-	users map[string]*User
+type PostgresRepo struct {
+	db *sql.DB
 }
 
-func NewInMemoryRepo() *InMemoryRepo {
-	return &InMemoryRepo{users: make(map[string]*User)}
+func NewPostgresRepo(db *sql.DB) *PostgresRepo {
+	return &PostgresRepo{db: db}
 }
 
-func (r *InMemoryRepo) GetByID(id string) (*User, error) {
-	user, ok := r.users[id]
-	if !ok {
-		return nil, errors.New("user not found")
+func (r *PostgresRepo) GetByID(id string) (*User, error) {
+	row := r.db.QueryRowContext(context.Background(), `
+        SELECT id, name, email FROM users WHERE id = $1
+    `, id)
+
+	var user User
+	err := row.Scan(&user.Id, &user.Name, &user.Email)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
 	}
-	return user, nil
+
+	return &user, nil
 }
 
-func (r *InMemoryRepo) Save(user *User) error {
-	r.users[user.Id] = user
-	return nil
+func (r *PostgresRepo) Save(user *User) error {
+	_, err := r.db.ExecContext(context.Background(), `
+        INSERT INTO users (id, name, email)
+        VALUES ($1, $2, $3)
+    `, user.Id, user.Name, user.Email)
+	return err
 }
