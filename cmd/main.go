@@ -1,12 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"go-proj/internal/config"
 	"go-proj/internal/domain/user"
 	"log"
 )
 
 func main() {
+	//Config
+	cfg := config.LoadConfig()
 	//User
 	repo := user.NewInMemoryRepo()
 	service := user.NewService(repo)
@@ -16,7 +20,7 @@ func main() {
 	//Custom handlers
 	handler.RegisterRoutes(ginServer)
 	//Run server
-	if err := ginServer.Run(":8080"); err != nil {
+	if err := ginServer.Run(fmt.Sprintf(":%d", cfg.Server.Port)); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
