@@ -1,6 +1,7 @@
 # Complete API with Async Support and Processing in Go
 
-This README guides you through creating a fully functional API in Go, with asynchronous processing support for tasks such as sending messages to a queue or performing background jobs.
+This README guides you through creating a fully functional API in Go, with asynchronous processing support for tasks
+such as sending messages to a queue or performing background jobs.
 "Clean Architecture" or layered approach is used in the project, inspired by Domain-Driven Design (DDD)
 
 ---
@@ -38,8 +39,6 @@ myproject/
 go build
 ```
 
-
-
 ### **3. Example `config.yaml`**
 
 ```yaml
@@ -66,6 +65,7 @@ queue:
 ---
 
 ### **5. Next Steps**
+
 - Add persistence (e.g., PostgreSQL or Redis) for tasks.
 - Integrate with message brokers (e.g., RabbitMQ or Kafka) for scalable async processing.
 - Write unit and integration tests.
