@@ -24,8 +24,8 @@ type DatabaseConfig struct {
 }
 
 func LoadConfigFromPath(path string) *Config {
-	viper.SetConfigName("config") // name of file (without extension)
-	viper.SetConfigType("yaml")   // type of the config file
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
 	viper.AddConfigPath(path)
 
 	err := viper.ReadInConfig()
