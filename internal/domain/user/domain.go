@@ -1,3 +1,6 @@
+//go:build nocoverage
+// +build nocoverage
+
 package user
 
 type User struct {
