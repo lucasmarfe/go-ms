@@ -23,10 +23,10 @@ type DatabaseConfig struct {
 	SSLMode  string `mapstructure:"sslmode"`
 }
 
-func LoadConfig() *Config {
-	viper.SetConfigName("config")    // name of file (without extension)
-	viper.SetConfigType("yaml")      // type of the config file
-	viper.AddConfigPath("./configs") // path to look for the config file
+func LoadConfigFromPath(path string) *Config {
+	viper.SetConfigName("config") // name of file (without extension)
+	viper.SetConfigType("yaml")   // type of the config file
+	viper.AddConfigPath(path)
 
 	err := viper.ReadInConfig()
 	if err != nil {

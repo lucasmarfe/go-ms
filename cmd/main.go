@@ -12,7 +12,7 @@ import (
 
 func main() {
 	//Config load
-	cfg := config.LoadConfig()
+	cfg := config.LoadConfigFromPath("./configs")
 	//Database setup
 	dsn := fmt.Sprintf(
 		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
