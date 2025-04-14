@@ -5,11 +5,16 @@ import (
 	"net/http"
 )
 
-type Handler struct {
-	service *Service
+type UserService interface {
+	GetUser(id string) (*User, error)
+	CreateUser(name, email string) (*User, error)
 }
 
-func NewHandler(s *Service) *Handler {
+type Handler struct {
+	service UserService
+}
+
+func NewHandler(s UserService) *Handler {
 	return &Handler{service: s}
 }
 
